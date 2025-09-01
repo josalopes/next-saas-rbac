@@ -1,0 +1,1 @@
+export type UserSubject = ['create' | 'delete' | 'invite' | 'manager', 'User']
