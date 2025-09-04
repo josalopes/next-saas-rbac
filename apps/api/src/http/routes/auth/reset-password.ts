@@ -1,11 +1,10 @@
-import { compare, hash } from 'bcryptjs';
+import { hash } from 'bcryptjs';
 import type { FastifyInstance } from 'fastify';
 import type { ZodTypeProvider } from 'fastify-type-provider-zod';
 import fastifyJwt from '@fastify/jwt'
 import z from 'zod';
 
 import { prisma } from '@/lib/prisma';
-import { BadRequestError } from '../bad-request-error';
 import { auth } from '@/http/middlewares/auth';
 import { UnauthorizedError } from '../unauthorized-error';
 
@@ -17,7 +16,7 @@ export async function resetPassword(app: FastifyInstance) {
         {
            schema: {
                 tags: ['Auth'],
-                summary: 'Recupera senha',
+                summary: 'Troca a senha',
                 body: z.object({
                     code: z.string(),
                     password: z.email().min(6)
