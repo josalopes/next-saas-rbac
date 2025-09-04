@@ -4,6 +4,7 @@ import type { ZodTypeProvider } from "fastify-type-provider-zod";
 import { z } from 'zod'
 
 import { prisma } from "@/lib/prisma";
+import { BadRequestError } from "../bad-request-error";
 
 export async function createAccount(app: FastifyInstance) {
     app.withTypeProvider<ZodTypeProvider>().post(
@@ -16,8 +17,17 @@ export async function createAccount(app: FastifyInstance) {
                     name: z.string(),
                     email: z.string(),
                     password: z.string().min(6)
-                })
+                }),
+                response: {
+                    400: z.object({
+                        message: z.string(),
+                    }),
+                    201: z.object({
+
+                    })
+                }
             },
+            
         }, 
         async (request, reply) => {
             const { name, email, password } = request.body
@@ -29,10 +39,20 @@ export async function createAccount(app: FastifyInstance) {
             })
 
             if (userWithSameEmail) {
-                return reply
-                  .status(400)
-                  .send({ message: 'Este e-mail já está em uso'})
+                throw new BadRequestError('Este e-mail já está em uso')
+                // return reply
+                //   .status(400)
+                //   .send({ message: 'Este e-mail já está em uso'})
             }
+
+            const [, domain] = email.split('@')
+
+            const autoJoinOrganization = await prisma.organization.findFirst({
+                where: {
+                    domain,
+                    shouldAttachUserByDomain: true,
+                }
+            })
 
             const passwordHash = await hash(password, 6)
 
@@ -41,6 +61,11 @@ export async function createAccount(app: FastifyInstance) {
                     name,
                     email,
                     passwordHash,
+                    member_on: autoJoinOrganization ? {
+                        create: {
+                            organizationId: autoJoinOrganization.id,
+                        }
+                    } : undefined,
                 },
             })
 
