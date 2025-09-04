@@ -15,7 +15,7 @@ export async function createAccount(app: FastifyInstance) {
                 summary: 'Cria uma nova conta de usuário',
                 body: z.object({
                     name: z.string(),
-                    email: z.string(),
+                    email: z.email(),
                     password: z.string().min(6)
                 }),
                 response: {
