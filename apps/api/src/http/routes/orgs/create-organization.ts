@@ -4,7 +4,6 @@ import { z } from 'zod'
 
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/http/middlewares/auth";
-import { BadRequestError } from "../bad-request-error";
 import { createSlug } from "@/utils/create-slug";
 
 export async function createOrganization(app: FastifyInstance) {
@@ -42,7 +41,6 @@ export async function createOrganization(app: FastifyInstance) {
             })
 
             if (organizationByDomain) {
-                // throw new BadRequestError('Já existe uma organização com este domínio')
                 return reply.status(400).send({ message: 'Já existe uma organização com este domínio' })
             }
         }
