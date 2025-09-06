@@ -6,6 +6,7 @@ import z from 'zod';
 
 import { prisma } from '@/lib/prisma';
 import { BadRequestError } from '../bad-request-error';
+import { env } from '@saas/env';
 
 export async function authenticateWithGithub(app: FastifyInstance) {
     app.withTypeProvider<ZodTypeProvider>().post(
@@ -18,9 +19,12 @@ export async function authenticateWithGithub(app: FastifyInstance) {
                   code: z.string(),
                 }),
                 response: {
+                    400: z.object({
+                            message: z.string(),
+                        }),
                     201: z.object({
-                        token: z.string()
-                    })
+                            token: z.string()
+                        })
                 }
             }, 
         }, 
@@ -29,9 +33,9 @@ export async function authenticateWithGithub(app: FastifyInstance) {
 
             const githubOAuthURL = new URL('https://github.com/oauth/access_token')
 
-            githubOAuthURL.searchParams.set('client_id', 'Ov23liigCviPbHgMHSZG')
-            githubOAuthURL.searchParams.set('client_secret', 'b3b0247bb49d3b9ec23dcdfdb42a815aef40c5e9')
-            githubOAuthURL.searchParams.set('redirect_url', 'http://localhost:3000/api/auth/callback')
+            githubOAuthURL.searchParams.set('client_id', env.GITHUB_OAUTH_CLIENT_ID)
+            githubOAuthURL.searchParams.set('client_secret', env.GITHUB_OAUTH_CLIENT_SECRET)
+            githubOAuthURL.searchParams.set('redirect_url', env.GITHUB_OAUTH_CLIENT_REDIRECT_URI)
             githubOAuthURL.searchParams.set('code', code)
 
             const githubAccessTokenResponse = await fetch(githubOAuthURL, {
@@ -65,7 +69,8 @@ export async function authenticateWithGithub(app: FastifyInstance) {
             }).parse(githubUserData)
 
             if (email === null) {
-                throw new BadRequestError('Sua conta GitHUb deve ter um e-mail para permitir a autenticação')
+                // throw new BadRequestError('Sua conta GitHUb deve ter um e-mail para permitir a autenticação')
+                return reply.status(400).send({ message: 'Sua conta GitHUb deve ter um e-mail para permitir a autenticação.' })
             }
 
             let user = await prisma.user.findUnique({

@@ -38,7 +38,8 @@ export async function createAccount(app: FastifyInstance) {
             })
 
             if (userWithSameEmail) {
-                throw new BadRequestError('Este e-mail já está em uso')
+                // throw new BadRequestError('Este e-mail já está em uso')
+                return reply.status(400).send({ message: 'Este e-mail já está em uso' })
             }
 
             const [, domain] = email.split('@')

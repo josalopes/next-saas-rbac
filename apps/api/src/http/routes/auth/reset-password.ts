@@ -22,6 +22,9 @@ export async function resetPassword(app: FastifyInstance) {
                     password: z.email().min(6)
                 }),              
                 response: {
+                    401: z.object({
+                            message: z.string(),
+                        }),
                     204: z.null()
                 },
             }, 
@@ -34,7 +37,8 @@ export async function resetPassword(app: FastifyInstance) {
             })
 
             if (!tokenFromCode) {
-                throw new UnauthorizedError()
+                // throw new UnauthorizedError():
+                return reply.status(401).send({ message: 'Token não autorizado' })
             }
 
             const passwordHash = await hash(password, 6)

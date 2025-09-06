@@ -32,6 +32,9 @@ importers:
       '@saas/auth':
         specifier: workspace:*
         version: link:../../packages/auth
+      '@saas/env':
+        specifier: workspace:*
+        version: link:../../packages/env
       bcryptjs:
         specifier: ^3.0.2
         version: 3.0.2
@@ -66,6 +69,9 @@ importers:
       '@types/node':
         specifier: ^22.15.3
         version: 22.15.3
+      dotenv-cli:
+        specifier: ^10.0.0
+        version: 10.0.0
       prisma:
         specifier: ^6.15.0
         version: 6.15.0(typescript@5.9.2)
@@ -129,6 +135,28 @@ importers:
       '@casl/ability':
         specifier: ^6.7.3
         version: 6.7.3
+      zod:
+        specifier: ^4.1.5
+        version: 4.1.5
+    devDependencies:
+      '@saas/eslint-config':
+        specifier: workspace:*
+        version: link:../../config/eslint-config
+      '@saas/prettier':
+        specifier: workspace:*
+        version: link:../../config/prettier
+      '@saas/tsconfig':
+        specifier: workspace:*
+        version: link:../../config/typescript-config
+
+  packages/env:
+    dependencies:
+      '@t3-oss/env-nextjs':
+        specifier: ^0.13.8
+        version: 0.13.8(typescript@5.9.2)(zod@4.1.5)
+      '@types/node':
+        specifier: ^22.15.3
+        version: 22.15.3
       zod:
         specifier: ^4.1.5
         version: 4.1.5
@@ -661,6 +689,40 @@ packages:
   '@swc/helpers@0.5.15':
     resolution: {integrity: sha512-JQ5TuMi45Owi4/BIMAJBoSQoOJu12oOk/gADqlcUL9JEdHB8vyjUSsxqeNXnmXHjYKMi2WcYtezGEEhqUI/E2g==}
 
+  '@t3-oss/env-core@0.13.8':
+    resolution: {integrity: sha512-L1inmpzLQyYu4+Q1DyrXsGJYCXbtXjC4cICw1uAKv0ppYPQv656lhZPU91Qd1VS6SO/bou1/q5ufVzBGbNsUpw==}
+    peerDependencies:
+      arktype: ^2.1.0
+      typescript: '>=5.0.0'
+      valibot: ^1.0.0-beta.7 || ^1.0.0
+      zod: ^3.24.0 || ^4.0.0-beta.0
+    peerDependenciesMeta:
+      arktype:
+        optional: true
+      typescript:
+        optional: true
+      valibot:
+        optional: true
+      zod:
+        optional: true
+
+  '@t3-oss/env-nextjs@0.13.8':
+    resolution: {integrity: sha512-QmTLnsdQJ8BiQad2W2nvV6oUpH4oMZMqnFEjhVpzU0h3sI9hn8zb8crjWJ1Amq453mGZs6A4v4ihIeBFDOrLeQ==}
+    peerDependencies:
+      arktype: ^2.1.0
+      typescript: '>=5.0.0'
+      valibot: ^1.0.0-beta.7 || ^1.0.0
+      zod: ^3.24.0 || ^4.0.0-beta.0
+    peerDependenciesMeta:
+      arktype:
+        optional: true
+      typescript:
+        optional: true
+      valibot:
+        optional: true
+      zod:
+        optional: true
+
   '@types/bcryptjs@3.0.0':
     resolution: {integrity: sha512-WRZOuCuaz8UcZZE4R5HXTco2goQSI2XxjGY3hbM/xDvwmqFWd4ivooImsMx65OKM6CtNKbnZ5YL+YwAwK7c1dg==}
     deprecated: This is a stub types definition. bcryptjs provides its own type definitions, so you do not need this installed.
@@ -1052,8 +1114,20 @@ packages:
     resolution: {integrity: sha512-35mSku4ZXK0vfCuHEDAwt55dg2jNajHZ1odvF+8SSr82EsZY4QmXfuWso8oEd8zRhVObSN18aM0CjSdoBX7zIw==}
     engines: {node: '>=0.10.0'}
 
+  dotenv-cli@10.0.0:
+    resolution: {integrity: sha512-lnOnttzfrzkRx2echxJHQRB6vOAMSCzzZg79IxpC00tU42wZPuZkQxNNrrwVAxaQZIIh001l4PxVlCrBxngBzA==}
+    hasBin: true
+
+  dotenv-expand@11.0.7:
+    resolution: {integrity: sha512-zIHwmZPRshsCdpMDyVsqGmgyP0yT8GAgXUnkdAoJisxvf33k7yO6OuoKmcTGuXPWSsm8Oh88nZicRLA9Y0rUeA==}
+    engines: {node: '>=12'}
+
   dotenv@16.6.1:
     resolution: {integrity: sha512-uBq4egWHTcTt33a72vpSG0z3HnPuIl6NqYcTrKEg2azoEyl2hpW0zqlxysq2pK9HlDIHyHyakeYaYnSAwd8bow==}
+    engines: {node: '>=12'}
+
+  dotenv@17.2.2:
+    resolution: {integrity: sha512-Sf2LSQP+bOlhKWWyhFsn0UsfdK/kCWRv1iuA2gXAwt3dyNabr6QSj00I2V10pidqz69soatm9ZwZvpQMTIOd5Q==}
     engines: {node: '>=12'}
 
   dunder-proto@1.0.1:
@@ -2842,6 +2916,18 @@ snapshots:
     dependencies:
       tslib: 2.8.1
 
+  '@t3-oss/env-core@0.13.8(typescript@5.9.2)(zod@4.1.5)':
+    optionalDependencies:
+      typescript: 5.9.2
+      zod: 4.1.5
+
+  '@t3-oss/env-nextjs@0.13.8(typescript@5.9.2)(zod@4.1.5)':
+    dependencies:
+      '@t3-oss/env-core': 0.13.8(typescript@5.9.2)(zod@4.1.5)
+    optionalDependencies:
+      typescript: 5.9.2
+      zod: 4.1.5
+
   '@types/bcryptjs@3.0.0':
     dependencies:
       bcryptjs: 3.0.2
@@ -3280,7 +3366,20 @@ snapshots:
     dependencies:
       esutils: 2.0.3
 
+  dotenv-cli@10.0.0:
+    dependencies:
+      cross-spawn: 7.0.6
+      dotenv: 17.2.2
+      dotenv-expand: 11.0.7
+      minimist: 1.2.8
+
+  dotenv-expand@11.0.7:
+    dependencies:
+      dotenv: 16.6.1
+
   dotenv@16.6.1: {}
+
+  dotenv@17.2.2: {}
 
   dunder-proto@1.0.1:
     dependencies:

@@ -38,15 +38,12 @@ export async function authenticateWithPassword(app: FastifyInstance) {
             })
 
             if (!userFromEmail) {
-                throw new BadRequestError('E-mail/senha inválido.')
-                // return reply.status(400).send({ message: 'E-mail/senha inválido.' })
+                // throw new BadRequestError('E-mail/senha inválido.')
+                return reply.status(400).send({ message: 'E-mail/senha inválido.' })
             }
 
             if (userFromEmail.passwordHash === null) {
                 throw new BadRequestError('Usuário não tenha uma senha, use o login social.')
-                // return reply
-                // .status(400)
-                // .send({ message: 'Usuário não tenha uma senha, use o login social.' })
             }
 
             const isPasswordValid = await compare(
@@ -56,7 +53,6 @@ export async function authenticateWithPassword(app: FastifyInstance) {
 
             if (!isPasswordValid) {
                 throw new BadRequestError('E-mail/senha inválido.')
-                // return reply.status(400).send({ message: 'E-mail/senha inválido.' })
             }
 
             const token = await reply.jwtSign(
