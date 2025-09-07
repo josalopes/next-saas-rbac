@@ -2,11 +2,9 @@ import type { FastifyInstance } from "fastify";
 import type { ZodTypeProvider } from "fastify-type-provider-zod";
 import { z } from 'zod'
 
-import { userSchema, organizationSchema, defineAbilityFor } from '@saas/auth';
+import { organizationSchema } from '@saas/auth';
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/http/middlewares/auth";
-import { BadRequestError } from "../bad-request-error";
-import { createSlug } from "@/utils/create-slug";
 import { getUserPermissions } from "@/utils/get-user-permissions";
 
 export async function updateOrganization(app: FastifyInstance) {
@@ -16,7 +14,7 @@ export async function updateOrganization(app: FastifyInstance) {
       .put('/organization/:slug', {
         schema: {
             tags: ['Organizations'],
-            summary: 'Atualzia detalhes de uma organização',
+            summary: 'Atualiza detalhes de uma organização',
             body: z.object({
                 name: z.string(),
                 domain: z.string().nullish(),

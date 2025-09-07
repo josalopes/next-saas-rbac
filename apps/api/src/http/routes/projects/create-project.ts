@@ -14,7 +14,7 @@ export async function createProject(app: FastifyInstance) {
       .post('/organization/:slug/project', {
         schema: {
             tags: ['Projects'],
-            summary: 'Cria um nov projeto dentro de uma organização',
+            summary: 'Cria um novo projeto dentro de uma organização',
             body: z.object({
                 name: z.string(),
                 description: z.string(),

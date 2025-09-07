@@ -7,14 +7,18 @@ import { prisma } from "@/lib/prisma";
 import { auth } from "@/http/middlewares/auth";
 import { getUserPermissions } from "@/utils/get-user-permissions";
 
-export async function deleteProject(app: FastifyInstance) {
+export async function updateProject(app: FastifyInstance) {
     app
       .withTypeProvider<ZodTypeProvider>()
       .register(auth)
-      .delete('/organization/:slug/project/:projectId', {
+      .put('/organization/:slug/project/:projectId', {
         schema: {
             tags: ['Projects'],
-            summary: 'Deleta um projeto de uma organização',
+            summary: 'Atuaiza dados de projeto de uma organização',
+            body: z.object({
+                name: z.string(),
+                description: z.string(),
+            }),
             params: z.object({
                 slug: z.string(),
                 projectId: z.uuid()
@@ -50,13 +54,19 @@ export async function deleteProject(app: FastifyInstance) {
 
         const { cannot } = getUserPermissions(userId, membership.role)
 
-        if (cannot('delete', authProject)) {
-            return reply.status(401).send({ message: 'Você não tem permissão para deletar projetos' })
+        if (cannot('update', authProject)) {
+            return reply.status(401).send({ message: 'Você não tem permissão para atualizar projetos' })
         }
 
-        await prisma.project.delete({
+        const { name, description } = request.body
+
+        await prisma.project.update({
             where: {
                 id: projectId,
+            },
+            data: {
+                name,
+                description
             }
         })
 

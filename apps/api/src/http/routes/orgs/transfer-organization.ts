@@ -2,11 +2,9 @@ import type { FastifyInstance } from "fastify";
 import type { ZodTypeProvider } from "fastify-type-provider-zod";
 import { z } from 'zod'
 
-import { userSchema, organizationSchema, defineAbilityFor } from '@saas/auth';
+import { organizationSchema } from '@saas/auth';
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/http/middlewares/auth";
-import { BadRequestError } from "../bad-request-error";
-import { createSlug } from "@/utils/create-slug";
 import { getUserPermissions } from "@/utils/get-user-permissions";
 
 export async function transferOrganization(app: FastifyInstance) {
