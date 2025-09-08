@@ -25,10 +25,10 @@ export async function getOrganization(app: FastifyInstance) {
                             }),
                         200: z.object({
                             id: z.uuid(),
-                            name: z.string().describe('O papel do usuário na organização'),
-                            domain: z.string().nullable().describe('O ID da organização'),
-                            avatarUrl: z.url().nullable().describe('O ID da organização'),
-                        }).describe('Detalhes da associação do usuário na organização'),
+                            name: z.string().describe('O nome organização'),
+                            domain: z.string().nullable().describe('O domínio da organização'),
+                            avatarUrl: z.url().nullable().describe('O avatar da organização'),
+                        }).describe('Detalhes da organização'),
                     },                
                 },
             }, 
@@ -39,7 +39,6 @@ export async function getOrganization(app: FastifyInstance) {
                 })
 
                 if (!organization) {
-                    // throw new BadRequestError('Organização não encontrada')
                   return reply.status(400).send({ message: 'Organização não encontrada' })
                 }
 

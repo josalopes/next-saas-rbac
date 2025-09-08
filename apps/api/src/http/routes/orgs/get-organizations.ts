@@ -22,10 +22,10 @@ export async function getOrganizations(app: FastifyInstance) {
                                 organizations: z.array(
                                     z.object({
                                         id: z.uuid(),
-                                        name: z.string().describe('O papel do usuário na organização'),
-                                        slug: z.string().describe('O ID da organização'),
-                                        avatarUrl: z.url().nullable().describe('O ID da organização'),
-                                        role: roleSchema.describe('O papel do usuário na organização'),
+                                        name: z.string().describe('O nome da organização'),
+                                        slug: z.string().describe('O nome abreviado da organização'),
+                                        avatarUrl: z.url().nullable().describe('O avatar da organização'),
+                                        role: roleSchema.describe('O papel dos membros da organização'),
                                     }).describe('Detalhes da organização'),
                                 ),
                         }).describe('Lista de organizações do usuário'),                
