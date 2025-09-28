@@ -6,7 +6,7 @@ import z from 'zod';
 
 import { prisma } from '@/lib/prisma';
 import { auth } from '@/http/middlewares/auth';
-import { UnauthorizedError } from '../unauthorized-error';
+import { UnauthorizedError } from '../-errors/unauthorized-error';
 
 export async function resetPassword(app: FastifyInstance) {
     app.withTypeProvider<ZodTypeProvider>()

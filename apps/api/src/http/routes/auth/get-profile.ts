@@ -5,7 +5,7 @@ import fastifyJwt from '@fastify/jwt'
 import z from 'zod';
 
 import { prisma } from '@/lib/prisma';
-import { BadRequestError } from '../bad-request-error';
+import { BadRequestError } from '../-errors/bad-request-error';
 import { auth } from '@/http/middlewares/auth';
 
 export async function getProfile(app: FastifyInstance) {

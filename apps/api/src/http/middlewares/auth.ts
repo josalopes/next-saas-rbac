@@ -1,10 +1,11 @@
 import type { FastifyInstance } from 'fastify'
 import { fastifyPlugin } from 'fastify-plugin'
-import { UnauthorizedError } from '../routes/unauthorized-error'
+import { UnauthorizedError } from '../routes/-errors/unauthorized-error'
 import { prisma } from '@/lib/prisma'
+import { BadRequestError } from '../routes/-errors/bad-request-error'
 
 export const auth = fastifyPlugin(async (app: FastifyInstance) => {
-  app.addHook('preHandler', async (request) => {
+  app.addHook('preHandler', async (request, reply) => {
     request.getCurrentUserid = async () => {
         try {
             const { sub } = await request.jwtVerify<{ sub: string }>()
@@ -31,7 +32,7 @@ export const auth = fastifyPlugin(async (app: FastifyInstance) => {
       })
 
       if (!member) {
-        throw new UnauthorizedError('Você não é membro desta organização')
+        throw new BadRequestError('Você não é membro desta organização')
       }
 
       const { organization, ...membership } = member

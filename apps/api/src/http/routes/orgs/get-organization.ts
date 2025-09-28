@@ -4,6 +4,7 @@ import { z } from 'zod'
 
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/http/middlewares/auth";
+import { BadRequestError } from "../-errors/bad-request-error";
 
 export async function getOrganization(app: FastifyInstance) {
     app
@@ -39,7 +40,8 @@ export async function getOrganization(app: FastifyInstance) {
                 })
 
                 if (!organization) {
-                  return reply.status(400).send({ message: 'Organização não encontrada' })
+                    throw new BadRequestError('Organização não encontrada')
+                //   return reply.status(400).send({ message: 'Organização não encontrada' })
                 }
 
                 const org = {

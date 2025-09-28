@@ -6,6 +6,7 @@ import { organizationSchema } from '@saas/auth';
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/http/middlewares/auth";
 import { getUserPermissions } from "@/utils/get-user-permissions";
+import { BadRequestError } from "../-errors/bad-request-error";
 
 export async function shutdownOrganization(app: FastifyInstance) {
     app
@@ -39,7 +40,8 @@ export async function shutdownOrganization(app: FastifyInstance) {
         const { cannot } = getUserPermissions(userId, membership.role)
 
         if (cannot('delete', authOrganization)) {
-            return reply.status(401).send({ message: 'Você não tem permissão para desativar esta organização' })
+            throw new BadRequestError('Você não tem permissão para desativar essa organização')
+            // return reply.status(401).send({ message: 'Você não tem permissão para desativar esta organização' })
         }
 
 

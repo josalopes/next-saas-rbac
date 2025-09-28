@@ -5,6 +5,7 @@ import { z } from 'zod'
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/http/middlewares/auth";
 import { roleSchema } from "@saas/auth/src/subjects/roles";
+import { BadRequestError } from "../-errors/bad-request-error";
 
 export async function getMembership(app: FastifyInstance) {
     app
@@ -21,10 +22,16 @@ export async function getMembership(app: FastifyInstance) {
                         slug: z.string(),
                     }),
                     response: {
+                        400: z.object({
+                            message: z.string(),
+                            }),
                         200: z.object({
-                            id: z.uuid(),
-                            role: roleSchema.describe('O papel do usuário na organização'),
-                            organizationId: z.uuid().describe('O ID da organização'),
+                            membership: z.object({
+                                id: z.uuid(),
+                                role: roleSchema.describe('O papel do usuário na organização'),
+                                userId: z.uuid(),
+                                organizationId: z.uuid().describe('O ID da organização'),
+                            })
                         }).describe('Detalhes da associação do usuário na organização'),
                     },                
                 },
@@ -33,18 +40,26 @@ export async function getMembership(app: FastifyInstance) {
                 const { slug } = request.params
                 const { membership } = await request.getUserMembership(slug)
 
+                if (!membership) {
+                    throw new BadRequestError('Você não é membro dessa organização')
+                }
+
                 const member = {
-                        id: membership.id,
-                        role: membership.role,
-                        organization: membership.organizationId
-                    }
+                    id: membership.id,
+                    role: membership.role,
+                    UserId: membership.userId,
+                    organization: membership.organizationId
+                }
 
                 return reply.status(200).send(
-                    { 
+                { 
+                    membership: {
                         id: membership.id, 
                         role: membership.role, 
+                        userId: membership.userId,
                         organizationId: membership.organizationId, 
-                    })
+                    }
+                })
             }
         )
     }

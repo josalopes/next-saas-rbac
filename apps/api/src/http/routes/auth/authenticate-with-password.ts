@@ -5,7 +5,7 @@ import fastifyJwt from '@fastify/jwt'
 import z from 'zod';
 
 import { prisma } from '@/lib/prisma';
-import { BadRequestError } from '../bad-request-error';
+import { BadRequestError } from '../-errors/bad-request-error';
 
 export async function authenticateWithPassword(app: FastifyInstance) {
     app.withTypeProvider<ZodTypeProvider>().post(

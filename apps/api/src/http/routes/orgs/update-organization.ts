@@ -6,6 +6,7 @@ import { organizationSchema } from '@saas/auth';
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/http/middlewares/auth";
 import { getUserPermissions } from "@/utils/get-user-permissions";
+import { BadRequestError } from "../-errors/bad-request-error";
 
 export async function updateOrganization(app: FastifyInstance) {
     app
@@ -48,7 +49,8 @@ export async function updateOrganization(app: FastifyInstance) {
         const { cannot } = getUserPermissions(userId, membership.role)
 
         if (cannot('update', authOrganization)) {
-            return reply.status(401).send({ message: 'Você não tem permissão para atualizar esta organização' })
+            throw new BadRequestError('Você não tem permissão para atualizar esta organização')
+            // return reply.status(401).send({ message: 'Você não tem permissão para atualizar esta organização' })
         }
 
         if (domain) {
@@ -62,7 +64,8 @@ export async function updateOrganization(app: FastifyInstance) {
             })
 
             if (organizationByDomain) {
-                return reply.status(400).send({ message: 'Já existe uma organização com este domínio' })
+                throw new BadRequestError('Já existe uma organização com este domínio')
+                // return reply.status(400).send({ message: 'Já existe uma organização com este domínio' })
             }
         }
 

@@ -45,11 +45,13 @@ import { rejectInvite } from './routes/invites/reject-invite'
 import { revokeInvite } from './routes/invites/revoke-invite'
 import { getPendingInvites } from './routes/invites/get-pending-invites'
 import { getOrganizationBilling } from './routes/billing/get-organization-billing'
+import { errorHandler } from './error-handler'
 
 const app = fastify().withTypeProvider<ZodTypeProvider>()
 
 app.setSerializerCompiler(serializerCompiler)
 app.setValidatorCompiler(validatorCompiler)
+app.setErrorHandler(errorHandler)
 
 app.register(fastifySwagger, {
     openapi: {
