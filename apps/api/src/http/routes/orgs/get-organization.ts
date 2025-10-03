@@ -25,11 +25,18 @@ export async function getOrganization(app: FastifyInstance) {
                             message: z.string(),
                             }),
                         200: z.object({
-                            id: z.uuid(),
-                            name: z.string().describe('O nome organização'),
-                            domain: z.string().nullable().describe('O domínio da organização'),
-                            avatarUrl: z.url().nullable().describe('O avatar da organização'),
-                        }).describe('Detalhes da organização'),
+                            organizacao: z.object({
+                                id: z.uuid(),
+                                name: z.string(),
+                                slug: z.string(),
+                                domain: z.string().nullable(),
+                                shouldAttachUsersByDomain: z.boolean(),
+                                avatarUrl: z.url().nullable(),
+                                createdAt: z.date(),
+                                updatedAt: z.date(),
+                                ownerId: z.uuid()
+                            }),
+                        })
                     },                
                 },
             }, 
@@ -41,23 +48,46 @@ export async function getOrganization(app: FastifyInstance) {
 
                 if (!organization) {
                     throw new BadRequestError('Organização não encontrada')
-                //   return reply.status(400).send({ message: 'Organização não encontrada' })
                 }
 
-                const org = {
+                const organizacao = {
                     id: organization.id,
                     name: organization?.name,
+                    slug: organization.slug,
                     domain: organization.domain,
+                    shouldAttachUsersByDomain: organization.shouldAttachUserByDomain,
                     avatarUrl: organization.avatarUrl,
+                    createdAt: organization.createdAt,
+                    updatedAt: organization.updatedAt,
+                    ownerId: organization.ownerId
                 }
 
+                // const organizacao = {
+                //     id: org.id,
+                //         name: org?.name,
+                //         slug: org.slug,
+                //         domain: org.domain,
+                //         shouldAttachUsersByDomain: org.shouldAttachUsersByDomain,
+                //         avatarUrl: org.avatarUrl,
+                //         createdAt: org.createdAt,
+                //         updatedAt: org.updatedAt,
+                //         ownerId: org.ownerId
+                // }
+
                 return reply.status(200).send(
-                    { 
-                        id: org.id, 
-                        name: org.name, 
-                        domain: org.domain, 
-                        avatarUrl: org.avatarUrl
-                    })
+                    {organizacao}
+                    // {
+                    //     id: org.id,
+                    //     name: org?.name,
+                    //     slug: org.slug,
+                    //     domain: org.domain,
+                    //     shouldAttachUsersByDomain: org.shouldAttachUsersByDomain,
+                    //     avatarUrl: org.avatarUrl,
+                    //     createdAt: org.createdAt,
+                    //     updatedAt: org.updatedAt,
+                    //     ownerId: org.ownerId
+                    // }
+                )
             }
         )
     }

@@ -44,9 +44,20 @@ export async function createOrganization(app: FastifyInstance) {
 
             if (organizationByDomain) {
                 throw new BadRequestError('Já existe uma organização com este domínio')
-                // return reply.status(400).send({ message: 'Já existe uma organização com este domínio' })
             }
         }
+
+        const slug = createSlug(name)
+
+        const organizationBySlug = await prisma.organization.findUnique({
+            where: {
+                slug
+            },
+        })
+
+        if (organizationBySlug) {
+            throw new BadRequestError('Já existe uma organização com este slug')
+        }        
 
         const organization = await prisma.organization.create({
             data: {
