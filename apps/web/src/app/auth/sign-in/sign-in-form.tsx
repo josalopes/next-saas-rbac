@@ -3,7 +3,7 @@
 import Link from "next/link";
 // import Image from "next/image";
 import { useTransition, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -20,6 +20,8 @@ import { signInWithGithub } from "../actions";
 
 export function SignInForm() {
     const router = useRouter()
+    const searchParams = useSearchParams()
+
     const [{ success, message, errors }, handleSubmit, isPending] = useFormState(
         signInWithEmailAndPassword,
         () => {
@@ -42,7 +44,7 @@ export function SignInForm() {
 
                 <div className="space-y-1">
                     <Label htmlFor="email">Email</Label>
-                    <Input type="email" name="email"  id="email"/>
+                    <Input type="email" name="email"  id="email" defaultValue={searchParams.get('email') ?? ''} />
 
                     {errors?.email && (
                         <span className="text-xs font-medium text-red-500">{errors.email[0]}</span>
