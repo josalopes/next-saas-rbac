@@ -1,15 +1,15 @@
 import { ability, getCurrentOrg } from "@/auth/auth"
-import { AvatarFallback } from "@/components/ui/avatar"
+import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table"
 import { getMembers } from "@/http/get-members"
 import { getMembership } from "@/http/get-membership"
 import { getOrganization } from "@/http/get-organization"
-import { Avatar } from "@radix-ui/react-avatar"
 import { organizationSchema } from "@saas/auth"
 import { ArrowLeftRight, Crown, UserMinus } from "lucide-react"
 import Image from "next/image"
 import { removeMemberAction } from "./actions"
+import { UpdateMemberRoleSelect } from "./update-member-role-select"
 
 export default async function MemberList() {
     const currentOrg = await getCurrentOrg()
@@ -73,10 +73,23 @@ export default async function MemberList() {
                                             </Button>
                                         )}
 
+                                        <UpdateMemberRoleSelect
+                                            memberId={member.id}
+                                            value={member.role}
+                                            disabled={
+                                                member.userId === membership.userid ||
+                                                organizacao.ownerId === member.userId ||
+                                                permissions?.cannot('update', 'User')
+                                            }
+                                        />
+
                                         {permissions?.can('delete', 'User') && (
                                             <form action={removeMemberAction.bind(null, member.id)}>
                                                 <Button 
-                                                    disabled={member.userId === membership.userid || organizacao.ownerId === member.userId} 
+                                                    disabled={
+                                                        member.userId === membership.userid ||
+                                                        organizacao.ownerId === member.userId
+                                                    } 
                                                     type="submit" 
                                                     size="sm" 
                                                     variant="destructive"

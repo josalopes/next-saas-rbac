@@ -51,7 +51,7 @@ export async function createInvite(app: FastifyInstance) {
         }  
       
         const { email, role } = request.body
-        const [, domain] = email
+        const [, domain] = email.split('@')
 
         if (organization.shouldAttachUserByDomain && domain === organization.domain) {
             return reply.status(400).send({ message: `Usuários com o domínio "${domain}" já são membros da organização ao realizarem login` })
