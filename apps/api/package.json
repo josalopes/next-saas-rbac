@@ -6,7 +6,9 @@
         "env:load": "dotenv -e ../../.env --",
         "db:migrate": "pnpm env:load prisma migrate dev",
         "db:studio": "pnpm env:load prisma studio",
-        "db:seed": "pnpm env:load prisma db seed"
+        "db:seed": "pnpm env:load prisma db seed",
+        "build": "tsup",
+        "start": "node dist/http/server.js"
     },
     "prisma": {
         "seed": "tsx prisma/seed.ts"
@@ -34,6 +36,7 @@
         "@types/node": "^22.15.3",
         "dotenv-cli": "^10.0.0",
         "prisma": "^6.15.0",
+        "tsup": "^8.5.0",
         "tsx": "^4.20.5"
     },
     "prettier": "@saas/prettier",
@@ -43,3 +46,4 @@
         ]
     }
 }
+

@@ -117,7 +117,7 @@ app.register(revokeInvite)
 app.register(getPendingInvites)
 app.register(getOrganizationBilling)
 
-app.listen({ port: env.SERVER_PORT || 3333}).then(() => {
+app.listen({ port: env.PORT || 3333}).then(() => {
     console.log('HTTP server running!')
 })
 
