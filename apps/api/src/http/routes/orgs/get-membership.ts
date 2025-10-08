@@ -2,10 +2,11 @@ import type { FastifyInstance } from "fastify";
 import type { ZodTypeProvider } from "fastify-type-provider-zod";
 import { z } from 'zod'
 
-import { prisma } from "@/lib/prisma";
+// import { prisma } from "@/lib/prisma";
 import { auth } from "@/http/middlewares/auth";
-import { roleSchema } from "@saas/auth/src/subjects/roles";
+// import { roleSchema } from "@saas/auth/src/subjects/roles";
 import { BadRequestError } from "../-errors/bad-request-error";
+import { roleSchema } from "@saas/auth";
 
 export async function getMembership(app: FastifyInstance) {
     app
