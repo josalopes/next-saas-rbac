@@ -69,8 +69,7 @@ export async function authenticateWithGithub(app: FastifyInstance) {
             }).parse(githubUserData)
 
             if (email === null) {
-                // throw new BadRequestError('Sua conta GitHUb deve ter um e-mail para permitir a autenticação')
-                return reply.status(400).send({ message: 'Sua conta GitHUb deve ter um e-mail para permitir a autenticação.' })
+                 throw new BadRequestError('Sua conta GitHUb deve ter um e-mail para permitir a autenticação')
             }
 
             let user = await prisma.user.findUnique({

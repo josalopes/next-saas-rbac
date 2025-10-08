@@ -5,7 +5,7 @@ import { z } from 'zod'
 
 import { prisma } from "@/lib/prisma";
 import { getUserPermissions } from "@/utils/get-user-permissions";
-import { roleSchema } from "@saas/auth";
+import { roleSchema } from "@saas/auth/";
 
 export async function createInvite(app: FastifyInstance) {
     app
