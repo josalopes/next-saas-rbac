@@ -4,7 +4,7 @@ import { z } from 'zod'
 
 import { auth } from "@/http/middlewares/auth";
 import { BadRequestError } from "../-errors/bad-request-error";
-import { roleSchema } from "@saas/auth";
+import { roleSchema } from "@saas/auth/src/roles";
 
 export async function getMembership(app: FastifyInstance) {
     app

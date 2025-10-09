@@ -8,16 +8,16 @@ import {
 
 import { permissions } from './permissions'
 import { User } from './models/user'
+import { projectSubject } from './subjects/project';
 import { organizationSubject } from './subjects/organization'
 import { inviteSubject } from './subjects/invite'
 import { billingSubject } from './subjects/billing'
-import { projectSubject } from './subjects/project';
 import { userSubject } from './subjects/user';
 
-export * from './models/organization'
-export * from './models/project'
-export * from './models/user'
-export * from './subjects/roles'
+// export * from './models/organization'
+// export * from './models/project'
+// export * from './models/user'
+// export * from './subjects/roles'
 
 const appAbilitiesSchema = z.union([
   projectSubject,
@@ -31,9 +31,9 @@ const appAbilitiesSchema = z.union([
   ])
 ])
 
-// type AppAbilities = z.infer<typeof appAbilitiesSchema>
+type AppAbilities = z.infer<typeof appAbilitiesSchema>
 
-export type AppAbility = MongoAbility<z.infer<typeof appAbilitiesSchema>>;
+export type AppAbility = MongoAbility<AppAbilities>;
 export const createAppAbility = createMongoAbility as CreateAbility<AppAbility>;
 
 export function defineAbilityFor(user: User) {
