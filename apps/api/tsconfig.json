@@ -5,6 +5,13 @@
         "baseUrl": ".",
         "paths": {
             "@/*": ["./src/*"]
-        }
+        },
+        "module": "CommonJS",        // forçar CommonJS para compatibilidade
+        "target": "ES2020",          // bom suporte no Node 20
+        "isolatedModules": true,     // necessário para tsup
+        "noEmit": true,              // tsup cuida da build, tsc não deve emitir nada
+        "esModuleInterop": true,
+        "skipLibCheck": true,
+        "strict": true
     }
 }
