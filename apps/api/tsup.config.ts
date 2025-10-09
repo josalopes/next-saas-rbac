@@ -1,8 +1,8 @@
 import { defineConfig } from 'tsup'
 
 export default defineConfig({
-    entry: ['src/http/server.ts'],
-    outDir: 'dist',
+    entry: ['src'],
+    // outDir: 'dist',
     target: 'node20',
     format: ['cjs'],
     splitting: false,
