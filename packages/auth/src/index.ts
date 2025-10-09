@@ -27,9 +27,10 @@ const appAbilitiesSchema = z.union([
   ])
 ])
 
-type AppAbilities = z.infer<typeof appAbilitiesSchema>
+// type AppAbilities = z.infer<typeof appAbilitiesSchema>
 
-export type AppAbility = MongoAbility<AppAbilities>;
+export type AppAbility = MongoAbility<z.infer<typeof appAbilitiesSchema>>;
+// export type AppAbility = MongoAbility<AppAbilities>;
 export const createAppAbility = createMongoAbility as CreateAbility<AppAbility>;
 
 export function defineAbilityFor(user: User) {
