@@ -15,7 +15,7 @@ export async function authenticateWithPassword(app: FastifyInstance) {
                 tags: ['Auth'],
                 summary: 'Autentica usuário com e-mail e senha',
                 body: z.object({
-                    email: z.email(),
+                    email: z.string(),
                     password: z.string(),
                 }),
                 response: {
@@ -31,6 +31,8 @@ export async function authenticateWithPassword(app: FastifyInstance) {
         async (request, reply) => {
             const { email, password } = request.body
 
+            console.log(email, password)
+
             const userFromEmail = await prisma.user.findUnique({
                 where: {
                 email,
@@ -39,11 +41,11 @@ export async function authenticateWithPassword(app: FastifyInstance) {
 
             if (!userFromEmail) {
                 // throw new BadRequestError('E-mail/senha inválido.')
-                return reply.status(400).send({ message: 'E-mail/senha inválido.' })
+                return reply.status(400).send({ message: 'E-mail inválido ou não existente.' })
             }
 
             if (userFromEmail.passwordHash === null) {
-                throw new BadRequestError('Usuário não tenha uma senha, use o login social.')
+                throw new BadRequestError('Usuário não tem uma senha, use o login social.')
             }
 
             const isPasswordValid = await compare(
@@ -52,7 +54,8 @@ export async function authenticateWithPassword(app: FastifyInstance) {
             )
 
             if (!isPasswordValid) {
-                throw new BadRequestError('E-mail/senha inválido.')
+                throw new BadRequestError('Senha inválida.')
+                // throw new BadRequestError('E-mail/senha inválido.')
             }
 
             const token = await reply.jwtSign(

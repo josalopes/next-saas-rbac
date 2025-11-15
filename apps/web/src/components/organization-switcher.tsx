@@ -13,7 +13,6 @@ import { Avatar, AvatarImage, AvatarFallback } from "./ui/avatar";
 
 import Link from "next/link";
 import { getOrganizations } from "@/http/get-organizations";
-import { cookies } from "next/headers";
 import { getCurrentOrg } from "@/auth/auth";
 
 export async function OrganizationSwitcher() {

@@ -1,3 +1,5 @@
+'use client'
+
 import { Check, UserPlus2, X } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Button } from "../ui/button";

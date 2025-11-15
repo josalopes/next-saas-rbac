@@ -1,4 +1,5 @@
 "use server"
+
 import { z } from 'zod'
 import { HTTPError } from 'ky'
 import { cookies } from 'next/headers'
@@ -15,7 +16,9 @@ const signInSchema = z.object({
 export async function signInWithEmailAndPassword(data: FormData) {
     const entries = Object.fromEntries(data)
     
-    const result = signInSchema.safeParse(Object.fromEntries(data))
+    const result = signInSchema.safeParse(entries)
+
+    console.log(result)
     
     if (!result.success) {
         const errors = result.error.flatten().fieldErrors
@@ -57,6 +60,8 @@ export async function signInWithEmailAndPassword(data: FormData) {
                 errors: null
              }    
         }
+
+        console.error(err)
 
         return { 
             success: false, 

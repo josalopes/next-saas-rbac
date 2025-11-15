@@ -2,7 +2,7 @@ import type { FastifyInstance } from "fastify";
 import type { ZodTypeProvider } from "fastify-type-provider-zod";
 import { z } from 'zod'
 
-import { organizationSchema } from '@saas/auth';
+import { organizationSchema } from '@saas/auth'
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/http/middlewares/auth";
 import { getUserPermissions } from "@/utils/get-user-permissions";

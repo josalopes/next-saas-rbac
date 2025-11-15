@@ -13,9 +13,14 @@ interface SignInWithPasswordResponse {
 export async function signInWithPassword({
     email, password,
 }: SignInWithPasswordRequest): Promise<SignInWithPasswordResponse> {
-    const response = await api.post('sessions/password', {
-        json: { email, password },
-    }).json<SignInWithPasswordResponse>()
+    const response = await api
+        .post('sessions/password', {
+            json: { 
+                email, 
+                password 
+            },
+    })
+    .json<SignInWithPasswordResponse>()
 
     return response
 }
