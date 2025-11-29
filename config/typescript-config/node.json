@@ -4,7 +4,7 @@
 
   "compilerOptions": {
     "lib": ["es2023"],
-    "module": "nodenext",
+    "module": "es2022",
     "target": "es2022",
 
     "strict": true,
@@ -12,6 +12,6 @@
     "isolatedModules": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "moduleResolution": "node16"
+    "moduleResolution": "node"
   }
 }

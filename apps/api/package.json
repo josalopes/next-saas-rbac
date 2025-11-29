@@ -1,6 +1,7 @@
 {
     "name": "@saas/api",
     "version": "1.0.0",
+    "type": "module",
     "scripts": {
         "dev": "pnpm env:load tsx watch src/http/server.ts",
         "env:load": "dotenv -e ../../.env --",
