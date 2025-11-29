@@ -1,6 +1,7 @@
 {
     "extends": "@saas/tsconfig/node.json",
     "include": ["src/**/*", "@types/*.d.ts"],
+    "module": "CommonJS",
     "compilerOptions": {
         "baseUrl": ".",
         "paths": {
