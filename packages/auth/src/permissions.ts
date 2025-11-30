@@ -20,7 +20,7 @@ import { userSubject } from './subjects/user';
 
 // import { AbilityBuilder } from "@casl/ability"
 // import { AppAbility } from "./index"
-// import {  } from "."
+// import { * } from "."
 // import { User } from "./models/user"
 import { Role } from "./roles"
 

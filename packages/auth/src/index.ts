@@ -5,7 +5,6 @@
 //   MongoAbility, 
 //   AbilityBuilder 
 // } from '@casl/ability'
-
 // import { permissions } from './permissions'
 // import { User } from './models/user'
 // import { projectSubject } from './subjects/project';
@@ -13,10 +12,12 @@
 // import { inviteSubject } from './subjects/invite'
 // import { billingSubject } from './subjects/billing'
 // import { userSubject } from './subjects/user';
-
-export * from './models/organization'
-export * from './models/project'
-export * from './models/user'
+export { organizationSchema } from './models/organization'
+export type { Organization } from './models/organization'
+export { projectSchema } from './models/project'
+export type { Project } from './models/project'
+export { userSchema } from './models/user'
+export type { User } from './models/user'
 export * from './roles'
 
 
