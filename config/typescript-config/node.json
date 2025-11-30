@@ -12,6 +12,8 @@
     "isolatedModules": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "moduleResolution": "node"
+    "moduleResolution": "node",
+
+    "allowSyntheticDefaultImports": true
   }
 }
